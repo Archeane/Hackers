@@ -1,7 +1,15 @@
-var width = 500;
-var height = 500;
+var width = 800;
+var height = 800;
 var svg;
 var defs;
+
+const radius = Math.min(width, height)/2;
+const theta = 2* Math.PI/180;
+const color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00", "#BB8FCE","#5DADE2","#2ECC71"]);
+
+
+var radiusScale = d3.scaleSqrt().domain([1,100]).range([5,radius/20]);
+var distanceScale = d3.scaleLinear().domain([1,100]).range([radius/5,radius-40]);
 
 function init(){
 
@@ -10,17 +18,12 @@ function init(){
             .attr("height", height)
             .attr("width", width)
             .append("g")
-            .attr("transform", "translate(250,250)")
+            .attr("transform", "translate("+width/2+","+height/2+")")
 
     defs = svg.append("defs");
 }
-function display(){
-    
-    //Piechart
-    const radius = Math.min(width, height)/2;
-    const theta = 2* Math.PI/180;
-    const color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00", "#BB8FCE","#5DADE2","#2ECC71"]);
 
+function display(){
     
     d3.queue()
         .defer(d3.csv, "../data/sales.csv")
@@ -28,30 +31,13 @@ function display(){
         
     function ready (error, datapoints){
 
-        var radiusScale = d3.scaleSqrt().domain([1,100]).range([10,39]);
-        var distanceScale = d3.scaleLinear().domain([1,100]).range([radius/5,radius-40]);
-        
         g = svg.append("g");
-       
-        var numhacksRange = [[0,0],[1,4],[5,8],[9,12],[13,18],[19,2^31-1]];
-        var occurances = [0,0,0,0,0,0];
-        for(var i = 0; i < datapoints.length; i++){
-                //console.log(datapoints[i]);
-            for(var j = 0; j < numhacksRange.length; j++){
-                if(datapoints[i].numhacks >= numhacksRange[j][0] && datapoints[i].numhacks <= numhacksRange[j][1]){
-                    occurances[j]++;
-                }
-            }
-        }
-        //console.log(occurances);
-
-//        var data = [1, 1, 2, 3, 5, 8, 13, 21];
- //       var arcs = d3.pie()(occurances);
+ 
         var existingData = [];
         var pie = d3.pie()
             .sort(null)
             .value(function(d){
-                var val = Math.floor(d.numhacks/3);
+                var val = Math.floor(d.numhacks/2);
                 if(existingData.includes(val)){
                     return;
                 }else{
@@ -76,16 +62,19 @@ function display(){
 
         arc.append("path")
             .attr("d", path)
-            .attr("fill", function(d){
-                return color(Math.floor(d.data.numhacks/3));
-            });
+            .style("fill","white")
+            .style("stroke", function(d){
+                return color(Math.floor(d.data.numhacks/2));
+            })
+            .style("stroke-width", "4px")
+            .style("opacity",0.7);
 
         arc.append("text")
             .attr("transform", function(d){ return "translate("+label.centroid(d)+")";})
             .attr("dy", "0.35em")
             .attr(function(d){return d.data.numhacks;})
+            
     
-
     //Circles
         defs.selectAll(".artist-pattern")
             .data(datapoints)
@@ -111,8 +100,8 @@ function display(){
             .data(datapoints)
             .enter().append("circle")
             .attr("class", "artist")
-            .attr('cx',function (d) { return distanceScale((100-d.interest)*Math.cos((1+d.numhacks)*360/15*theta)); })
-            .attr('cy',function (d) { return distanceScale((100-d.interest)*Math.sin((1+d.numhacks)*360/15*theta)); })
+            .attr('cx',function (d) { return distanceScale((100-d.interest)*Math.cos((d.numhacks)*360/8*theta));})
+            .attr('cy',function (d) { return distanceScale((100-d.interest)*Math.sin((d.numhacks)*360/8*theta));})
             .attr('r', function (d) { return radiusScale(d.skills);})
             .attr("fill", function(d){
               return "url(#"+d.name+")";  
@@ -120,8 +109,27 @@ function display(){
             .on('click',function(d){
                 console.log(d);
             })
-       
-        
+
+        //filter
+
+         var filter = defs.append("filter")
+            .attr("id","glow");
+
+            filter.append("feGaussianBlur")
+                .attr("class", "blur")
+                .attr("stdDeviation","10")
+                .attr("result","coloredBlur");
+
+            var feMerge = filter.append("feMerge");
+            feMerge.append("feMergeNode")
+                .attr("in","coloredBlur");
+            feMerge.append("feMergeNode")
+                .attr("in","SourceGraphic");
+
+             d3.selectAll(".arc")
+                .style("filter","url(#glow)");  
+
     }
 
 }
+
