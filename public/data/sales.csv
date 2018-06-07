@@ -1,0 +1,10 @@
+id ,name,interest,skills,numhacks,image_path
+Steely,Steely_Dan,40,40,3,../images/snow.jpg
+Beyonce,Beyonce,34,70,4,../images/beyonce.jpg
+Madonna,Madonna,100,20,1,../images/madonna.jpg
+Adam Levine,Adam_Levine,20,100,3,../images/adam.jpg
+Hall ,Hall,80,36,2,../images/hall.jpg
+Drake,Drake,10,67,5,../images/drake.jpg
+Kesha,Kesha,60,85,6,../images/kesha.jpg
+The Eagles,The_Eagles,90,94,7,../images/eagles.jpg
+Lady Gaga,Lady_Gaga,27,62,8,../images/gaga.jpg
