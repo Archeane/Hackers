@@ -17,35 +17,49 @@ function init(){
 function display(){
     
     //Piechart
-    var numhacksRange = [[0,0],[1,4],[5,8],[9,12],[13,18],[19,2^31-1]];
-    var radiusScale = d3.scaleSqrt().domain([1,300]).range([10, 80]);
-    var theta = 2* Math.PI/180;
+    const radius = Math.min(width, height)/2;
+    const theta = 2* Math.PI/180;
+    const color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00", "#BB8FCE","#5DADE2","#2ECC71"]);
 
+    
     d3.queue()
         .defer(d3.csv, "../data/sales.csv")
         .await(ready)
         
     function ready (error, datapoints){
-        var radius = Math.min(width, height)/2;
-        var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00", "#BB8FCE","#5DADE2","#2ECC71"]);
-        g = svg.append("g");
 
+        var radiusScale = d3.scaleSqrt().domain([1,100]).range([10,39]);
+        var distanceScale = d3.scaleLinear().domain([1,100]).range([radius/5,radius-40]);
+        
+        g = svg.append("g");
+       
+        var numhacksRange = [[0,0],[1,4],[5,8],[9,12],[13,18],[19,2^31-1]];
         var occurances = [0,0,0,0,0,0];
         for(var i = 0; i < datapoints.length; i++){
                 //console.log(datapoints[i]);
             for(var j = 0; j < numhacksRange.length; j++){
-                console.log(datapoints[i].numhacks);
                 if(datapoints[i].numhacks >= numhacksRange[j][0] && datapoints[i].numhacks <= numhacksRange[j][1]){
                     occurances[j]++;
                 }
             }
         }
-        console.log(occurances);
+        //console.log(occurances);
 
-
+//        var data = [1, 1, 2, 3, 5, 8, 13, 21];
+ //       var arcs = d3.pie()(occurances);
+        var existingData = [];
         var pie = d3.pie()
             .sort(null)
-            .value(occurances);
+            .value(function(d){
+                var val = Math.floor(d.numhacks/3);
+                if(existingData.includes(val)){
+                    return;
+                }else{
+                    existingData.push(val);
+                    return val;
+                }
+               
+            });
         
         var path = d3.arc()
             .outerRadius(radius-10)
@@ -63,7 +77,7 @@ function display(){
         arc.append("path")
             .attr("d", path)
             .attr("fill", function(d){
-                return color(d.data.numhacks);
+                return color(Math.floor(d.data.numhacks/3));
             });
 
         arc.append("text")
@@ -97,8 +111,8 @@ function display(){
             .data(datapoints)
             .enter().append("circle")
             .attr("class", "artist")
-            .attr('cx',function (d) { return (100-d.interest)*Math.cos((1+d.numhacks)*360/15*theta); })
-            .attr('cy',function (d) { return (100-d.interest)*Math.sin((1+d.numhacks)*360/15*theta); })
+            .attr('cx',function (d) { return distanceScale((100-d.interest)*Math.cos((1+d.numhacks)*360/15*theta)); })
+            .attr('cy',function (d) { return distanceScale((100-d.interest)*Math.sin((1+d.numhacks)*360/15*theta)); })
             .attr('r', function (d) { return radiusScale(d.skills);})
             .attr("fill", function(d){
               return "url(#"+d.name+")";  
