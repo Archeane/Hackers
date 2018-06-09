@@ -3,14 +3,6 @@ var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
-const { window } = new JSDOM(`<!DOCTYPE html>`);
-//const $ = require('jquery')(window); 
-const cheerio = require('cheerio');
-const $ = cheerio.load('<h2 class="page-header"></h2>');
-
 var User = require('../models/user');
 
 var currentUser = new User({
@@ -21,11 +13,9 @@ var currentUser = new User({
 	school: ""
 });
 
-
 // Login
 router.get('/login', function (req, res) {
 	res.render('login');
-	//console.log(currentUser.username);
 });
 
 passport.use(new LocalStrategy(
@@ -71,9 +61,7 @@ router.post('/login',
 
 router.get('/logout', function (req, res) {
 	req.logout();
-
 	req.flash('success_msg', 'You are logged out');
-
 	res.redirect('/users/login');
 });
 

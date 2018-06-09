@@ -8,16 +8,20 @@ var flash = require('connect-flash');
 var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+/*
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/loginapp');
 var db = mongoose.connection;
-
+*/
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var register = require('./routes/register');
 var visual = require('./routes/visual');
+
+/Test routes/
+var testaddusers = require('./test/adduserstodb');
 
 // Init App
 var app = express();
@@ -82,6 +86,9 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/newacc', register);
 app.use('/visual', visual);
+
+/Test uses/
+app.use('/test', testaddusers);
 
 // Set Port
 app.set('port', (process.env.PORT || 3000));

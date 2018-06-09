@@ -4,6 +4,7 @@ var ctnUser = require('./users');
 
 var User = require('../models/user');
 
+
 // Get Homepage
 router.get('/', ensureAuthenticated, function(req, res){
 	res.render('index', ctnUser.globalUser);

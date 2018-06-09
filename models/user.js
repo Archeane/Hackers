@@ -95,39 +95,11 @@ module.exports.comparePassword = function(candidatePassword, hash, callback){
 	});
 }
 
-//Setters
+//TODO: when editing specific fields, create a new user with new params 
 module.exports.editUsername = function(ctnusername, newUsername, callback){
 	var conditions = {username: ctnusername};
 	User.findOneAndUpdate(conditions, {$set:{username: newUsername}}, callback);
 }
 
-module.exports.editNumOfHacks = function(username, numberOfHackathons, callback){
-	var conditions = {username: username};
-	User.findOneAndUpdate(conditions, {$set: {numOfHacks: numberOfHackathons}}, callback);
-}
 
-module.exports.editGithub = function(username, newgithub, callback){
-	var conditions = {username: username};
-	User.findOneAndUpdate(conditions, {$set: {github: newgithub}}, callback);
-}
 
-module.exports.editDevpost = function(username, newdevpost, callback){
-	var conditions = {username: username};
-	User.findOneAndUpdate(conditions, {$set: {devpost: newdevpost}}, callback);
-}
-
-module.exports.editWebsite = function(username, newwebsite, callback){
-	var conditions = {username: username};
-	User.findOneAndUpdate(conditions, {$set: {website: newwebsite}}, callback);
-}
-
-module.exports.editLinkedin = function(username, newlinkedin, callback){
-	var conditions = {username: username};
-	User.findOneAndUpdate(conditions, {$set: {linkedin: newlinkedin}}, callback);
-}
-
-module.exports.test = function(ctnusername, newusername, callback){
-	console.log("searching user has a username", ctnusername);
-	var conditions = {username: ctnusername};
-	User.findOneAndUpdate(conditions, {$set:{username: newusername}}, callback);
-}

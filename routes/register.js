@@ -1,20 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
-const { window } = new JSDOM(`<!DOCTYPE html>`);
-//const $ = require('jquery')(window); 
-const cheerio = require('cheerio');
-const $ = cheerio.load('<h2 class="page-header"></h2>');
-
 var User = require('../models/user');
 
 var createdUser = new User({
 	name:'', email:'', username: '', password: '', school: '', major: '', 
 	github:'', devpost:'', website:'', numOfHack:'', interests: null, skills: null
 });
-
 
 // Register
 router.get('/register', function (req, res) {
@@ -41,7 +33,6 @@ router.post('/register', function (req, res) {
 	var username = req.body.username;
 	var password = req.body.password;
 	var password2 = req.body.password2;
-	
 
 /TODO: add options in html from an array, connect the array with mongoDB/
 	var school = req.body.school;
@@ -64,7 +55,6 @@ router.post('/register', function (req, res) {
 	}
 */
 	var errors = req.validationErrors();
-
 	if (errors) {
 		res.render('register', {
 			errors: errors
@@ -85,23 +75,10 @@ router.post('/register', function (req, res) {
 					});
 				}
 				else {  //email and username both valid
-					/*
-					var newUser = new User({
-						name: name,
-						email: email,
-						username: username,
-						password: password,
-					});
-					User.createUser(newUser, function (err, user) {
-						if (err) throw err;
-//						console.log(user);
-*/
 					createdUser.name = name;
 					createdUser.email = email;
 					createdUser.username = username;
 					createdUser.password = password;
-//					});
-					//console.log(user._id);
 					res.redirect('/newacc/register2');
 				}
 			});
@@ -154,5 +131,6 @@ router.post('/register2', function(req, res){
 router.post('/register3', function(req, res){
 	
 });
+
 
 module.exports = router;
