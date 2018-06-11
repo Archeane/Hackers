@@ -21,14 +21,6 @@ var UserSchema = mongoose.Schema({
 		type: String
 	},
 
-	graduationYear:{
-		type: Number 
-	},
-
-	educationLevel:{
-		type: String
-	},
-	
 	major:{
 		type: String		
 	},
@@ -37,10 +29,19 @@ var UserSchema = mongoose.Schema({
 		type: Array
 	},
 
-	skills:{
+	languages:{
 		type: Array
 	},
 
+	graduationYear:{
+		type: Number 
+	},
+
+	educationLevel:{
+		type: String
+	},
+	
+	
 	numOfHacks: {
 		type: String
 	},

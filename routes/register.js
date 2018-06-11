@@ -27,6 +27,7 @@ router.get('/register3', function(req, res){
 2. Validate inputs
 3. calls User model to create a new user and add to database
 */
+/TODO:Optional: consider creating a valdiator when inserting into mongodb collection/
 router.post('/register', function (req, res) {
 	var name = req.body.name;
 	var email = req.body.email;
@@ -87,6 +88,8 @@ router.post('/register', function (req, res) {
 });
 
 /TODO: 1. create tags input for interest  2. show & hide interest bars on change/
+
+
 router.post('/register2', function(req, res){
 	var github = req.body.github;
 	var devpost = req.body.devpost;
