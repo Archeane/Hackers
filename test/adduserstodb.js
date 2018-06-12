@@ -25,10 +25,11 @@ var zerorpc = require('zerorpc');
 router.get('/', function(req, res){
 	res.send("in adduserstodb");
 	
+	
 	//TODO:Move this junk to pythonServer.js. For some reason loadTestHackathonData doens't execute there/
 	var hack = null;
 	/TODO: printing hacker.interests and hacker.languages as Array ?need to fix?/
-	manager.loadTestHackathonData("ShellHacks", function(err, hackathon){
+	manager.loadTestHackathonData("CEWIT", function(err, hackathon){
 		if(err) throw err;
 		if(!hackathon) throw "Hackathon not found";
 		hack = hackathon;
@@ -44,6 +45,8 @@ router.get('/', function(req, res){
 
 	server.bind("tcp://0.0.0.0:4242");
 	console.log("server binded");
+
+	
 /*	
 
 	Promise.all([loadUniConsts(), loadIntConsts(), loadLanConsts(), loadMajConsts(), loadHacksConsts()]).then(function(){
@@ -59,11 +62,12 @@ router.get('/', function(req, res){
 let createHackathon = function(){
 	return new Promise(function(resolve, reject){
 		
-		var numOfHackers = Math.floor(Math.random() * 100+50);
+		var numOfHackers = Math.floor(Math.random() * 50+25);
 		var hackers = [];
 		for(var i = 0; i < numOfHackers; i++){
 			hackers.push(randomUser());
 		}
+		console.log(hackers);
 		var hackathonNameIndex = Math.floor(Math.random()*hackathons.length);
 
 		var newHackathon = new Hackathon({
@@ -73,10 +77,11 @@ let createHackathon = function(){
 			website: '',
 			hackers: hackers
 		})
-		
+		console.log(newHackathon);
 		Hackathon.createHackathon(newHackathon, function(err, hackathon){
 			if(err) throw err;
 		});
+		console.log(newHackathon.name);
 		return newHackathon;
 	});
 } 

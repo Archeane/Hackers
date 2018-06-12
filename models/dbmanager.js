@@ -24,7 +24,7 @@ module.exports.loadInterestsConstants = function(callback){
 	var ints = ['ints array'];
 	db.collection('interests').find().forEach(function(docs){
 		ints.push(docs.Interests);
-		if(docs.Interests == "Web Technologies"){
+		if(docs.Interests == "Robotics"){
 			callback(ints);
 		}
 	});
@@ -66,7 +66,7 @@ module.exports.loadTestHackathonData = function(hackathonName,callback){
 	console.log("in loadTestHackathonData");
 	var query = {name: hackathonName};
 	db.collection('Hackathons').findOne(query, callback);
-	
+
 }
 
 
