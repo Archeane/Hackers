@@ -21,6 +21,7 @@ var visual = require('./routes/visual');
 
 /Test routes/
 var testaddusers = require('./test/adduserstodb');
+//var testPyConnect = require('./test/connectPython')
 
 // Init App
 var app = express();
@@ -88,6 +89,7 @@ app.use('/visual', visual);
 
 /Test uses/
 app.use('/test', testaddusers);
+//app.use('/connect', testPyConnect);
 
 // Set Port
 app.set('port', (process.env.PORT || 3000));

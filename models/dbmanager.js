@@ -8,6 +8,8 @@ var db = mongoose.connection;
 //Algorithmn: all current hackathons, all users in selected hackathon
 //Visualization: individual user data /
 
+
+//Loading constants from DB
 module.exports.loadUniversitiesConstants = function(callback){
 	var unis = ["hola"];
 	db.collection('universities').find().forEach(function(docs){
@@ -39,7 +41,6 @@ module.exports.loadLangaugesConstants = function(callback){
 	});
 }
 
-
 module.exports.loadMajorsConstants = function(callback){
 	var majs = ['majors array'];
 	db.collection('majors').find().forEach(function(docs){
@@ -59,5 +60,14 @@ module.exports.loadHackathonsConstants = function(callback){
 		}
 	})
 }
+
+module.exports.loadTestHackathonData = function(hackathonName,callback){
+	/TODO: only execute this function after data was populated by addusertodb, then call connect with python/
+	console.log("in loadTestHackathonData");
+	var query = {name: hackathonName};
+	db.collection('Hackathons').findOne(query, callback);
+	
+}
+
 
 var manager = module.exports;

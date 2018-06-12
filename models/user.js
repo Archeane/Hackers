@@ -96,6 +96,7 @@ module.exports.comparePassword = function(candidatePassword, hash, callback){
 	});
 }
 
+
 //TODO: when editing specific fields, create a new user with new params 
 module.exports.editUsername = function(ctnusername, newUsername, callback){
 	var conditions = {username: ctnusername};

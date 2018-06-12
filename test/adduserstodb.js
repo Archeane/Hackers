@@ -18,14 +18,41 @@ var profileimgs = [];
 
 var hackathons = [];
 
+
+
+var zerorpc = require('zerorpc');
+
 router.get('/', function(req, res){
 	res.send("in adduserstodb");
+	
+	//TODO:Move this junk to pythonServer.js. For some reason loadTestHackathonData doens't execute there/
+	var hack = null;
+	/TODO: printing hacker.interests and hacker.languages as Array ?need to fix?/
+	manager.loadTestHackathonData("ShellHacks", function(err, hackathon){
+		if(err) throw err;
+		if(!hackathon) throw "Hackathon not found";
+		hack = hackathon;
+	});
+
+	var server = new zerorpc.Server({
+		sendTestHackathon: function(reply){
+			console.log("in sendTestHacakthon");
+			reply(null, hack);
+		}
+	});
+
+
+	server.bind("tcp://0.0.0.0:4242");
+	console.log("server binded");
+/*	
 
 	Promise.all([loadUniConsts(), loadIntConsts(), loadLanConsts(), loadMajConsts(), loadHacksConsts()]).then(function(){
 		console.log("finished loading constants");
 		console.log(createHackathon());
 		
 	});
+
+*/	
 });
 
 
@@ -98,7 +125,7 @@ let loadMajConsts = function(){
 }
 
 randomUser = function(){
-	
+	console.log("in randomUser");
 	var createdUser = new User({
 	name:'', email:'', username: '', password: '', school: '', major: '', 
 		github:'', devpost:'', website:'', numOfHack:'', interests: null, languages: null
@@ -135,6 +162,7 @@ randomUser = function(){
 		randomLans.push(ctnInt);
 	}
 
+	console.log(createdUser);
 	var name = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 	
 	createdUser.name = name;
@@ -144,13 +172,12 @@ randomUser = function(){
 	createdUser.interests = randomInts;
 	createdUser.languages = randomLans;
 	
-	//console.log(createdUser);
+	console.log(createdUser);
 	User.createUser(createdUser, function (err, user) {
 		if (err) throw err;
-		console.log("user created");
 		console.log(createdUser);
-
 	});
+
 	return createdUser;
 	
 }
