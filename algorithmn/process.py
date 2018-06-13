@@ -1,5 +1,6 @@
 from random import randint
 import sys
+import json 
 # import zerorpc
 
 '''
@@ -10,14 +11,9 @@ currentHackathon = c.sendTestHackathon()
 c.close()
 '''
 
-print("Output from Python")
-currentHackathon = sys.argv[1]
-print(currentHackathon)
+# print("Output from Python")
+currentHackathon = json.loads(sys.argv[1])
 
-print("First name ")
-
-
-'''
 # TODO: change this current user to logged in user
 currentHacker = currentHackathon['hackers'][20];
 
@@ -126,19 +122,26 @@ def hackathonsimiliarscore(currentHacker, currentHackathon, filters):
     hackathonsimiliarscores = []
 
     resetuser(currentHacker,filters[0][1], filters[1][1])
-    print currentHacker
     hackers = currentHackathon['hackers']
     for hacker in hackers:
         resetuser(hacker, filters[0][1], filters[1][1])
-        score = calculateSimiliarScore(currentHacker, hacker, filters)
+        score = str(calculateSimiliarScore(currentHacker, hacker, filters))
         hackathonsimiliarscores.append([[hacker['username']], score])
 
     return hackathonsimiliarscores
 
+
 filter = [['interests', 7],['languages', 3]]
-hackathonsimiliarscore(currentHacker, currentHackathon, filter)
-
-
+similiarscores = hackathonsimiliarscore(currentHacker, currentHackathon, filter)
+json.dumps(similiarscores)
+# similiarscoresJSON = json.dumps(similiarscores)
+print(similiarscores)
+'''
+list = [[1,2],[3,4]] # Note that the 3rd element is a tuple (3, 4)
+json.dumps(list)
+print(list)
+'''
+'''
 class HelloRPC(object):
     def hello(self, name):
         return "Hello, %s" % name
@@ -146,8 +149,8 @@ class HelloRPC(object):
 s = zerorpc.Server(HelloRPC())
 s.bind("tcp://0.0.0.0:4242")
 s.run()
-
 '''
+
 '''
 TODO: 
 --1. Establish connection with Node.js thru childprocess
@@ -155,7 +158,7 @@ TODO:
 --3. Assign locally specific scores of each area for each user in current hackathon
 --4. return a sorted list of users ordered by  a) interest scores  b) language scores  c) Technologies  d) Interested Fields 
 --5. return a sorted list of general similiarity list based on input params such as: a) score of how much the current user cares about each field combined  
-6. format all data in JSON
+--6. format all data in JSON
 7. Send the list to visualization 
 '''
 

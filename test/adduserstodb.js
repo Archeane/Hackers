@@ -7,7 +7,47 @@ var User = require('../models/user');
 var Hackathon = require('../models/hackathon');
 
 
+
+//jsonify
+var convert = require('mongoose_schema-json');
+
+var newHackathon = new Hackathon({
+			name: 'hackMIT',
+			location: '',
+			sponsors: '',
+			website: '',
+			hackers: ''
+		});
+
+//child process
 var spawn = require("child_process").spawn;
+/TODO: printing hacker.interests and hacker.languages as Array ?need to fix?/
+manager.loadTestHackathonData("CEWIT", function(err, hackathon){
+	if(err) throw err;
+	if(!hackathon) throw "Hackathon not found";
+	hack = hackathon;
+
+
+	var jsonStr = convert.schema2json(hack);
+	//console.log(jsonStr);
+
+
+	var process = spawn('python',["./algorithmn/process.py",
+                         jsonStr] );
+	
+	process.stdout.on('data', function(data) {
+		console.log(data.toString());
+		var arr = eval(data.toString());
+		console.log(arr[0][0]);
+	});
+});
+
+//server to client
+var http = require('http');
+var data = "data to send to client";
+var server = http.createServer(function(request, response){
+
+});
 
 //This is a file to test algorithmn and visualization. 
 //imports from db for constants
@@ -20,22 +60,7 @@ var majors = [];
 var profileimgs = [];
 
 var hackathons = [];
-
 var hack = null;
-/TODO: printing hacker.interests and hacker.languages as Array ?need to fix?/
-manager.loadTestHackathonData("CEWIT", function(err, hackathon){
-	if(err) throw err;
-	if(!hackathon) throw "Hackathon not found";
-	hack = hackathon;
-
-	var process = spawn('python',["./algorithmn/process.py",
-                         ] );
-
-	process.stdout.on('data', function(data) {
-		console.log('data is', data);
-	});
-});
-
 
 
 

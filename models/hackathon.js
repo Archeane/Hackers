@@ -24,6 +24,16 @@ var HackathonSchema = mongoose.Schema({
 	}
 });
 
+
+/*
+//convert mongoose schema to json schema
+require('mongoose-schema-jsonschema')(mongoose);
+
+let jsonHackathonSchema = HackathonSchema.jsonSchema();
+//console.dir(jsonHackathonSchema, {depth: null});
+*/
+
+
 var Hackathon = module.exports = mongoose.model('Hackathon', HackathonSchema);
 
 module.exports.createHackathon = function(newHackathon, callback){
