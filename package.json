@@ -30,6 +30,7 @@
     "passport-local": "*",
     "select2": "4.0.3-rc.1",
     "select2-bootstrap-theme": "0.1.0-beta.10",
+    "socket.io": "^2.1.1",
     "zerorpc": "^0.9.7"
   }
 }

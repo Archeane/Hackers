@@ -6,6 +6,9 @@ var Promise = require('promise');
 var User = require('../models/user');
 var Hackathon = require('../models/hackathon');
 
+
+var spawn = require("child_process").spawn;
+
 //This is a file to test algorithmn and visualization. 
 //imports from db for constants
 //generate random users and add to db/
@@ -18,34 +21,57 @@ var profileimgs = [];
 
 var hackathons = [];
 
+var hack = null;
+/TODO: printing hacker.interests and hacker.languages as Array ?need to fix?/
+manager.loadTestHackathonData("CEWIT", function(err, hackathon){
+	if(err) throw err;
+	if(!hackathon) throw "Hackathon not found";
+	hack = hackathon;
+
+	var process = spawn('python',["./algorithmn/process.py",
+                         ] );
+
+	process.stdout.on('data', function(data) {
+		console.log('data is', data);
+	});
+});
 
 
-var zerorpc = require('zerorpc');
+
 
 router.get('/', function(req, res){
 	res.send("in adduserstodb");
 	
+	console.log("in adduserstodb");
+	//parameters passed in spawn: 1) type_of_script  2) list containing Path of the script and arguments for the script
+	
 	
 	//TODO:Move this junk to pythonServer.js. For some reason loadTestHackathonData doens't execute there/
-	var hack = null;
-	/TODO: printing hacker.interests and hacker.languages as Array ?need to fix?/
-	manager.loadTestHackathonData("CEWIT", function(err, hackathon){
-		if(err) throw err;
-		if(!hackathon) throw "Hackathon not found";
-		hack = hackathon;
-	});
-
+	
+	
+/*
 	var server = new zerorpc.Server({
 		sendTestHackathon: function(reply){
 			console.log("in sendTestHacakthon");
 			reply(null, hack);
+			server.close();
+
+
+			var client = new zerorpc.Client();
+			client.connect("tcp://127.0.0.1:4242");
+
+			client.invoke("hello", "RPC", function(error, res, more) {
+			    console.log(res);
+			});
 		}
+
 	});
 
 
 	server.bind("tcp://0.0.0.0:4242");
 	console.log("server binded");
-
+*/
+	
 	
 /*	
 

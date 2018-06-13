@@ -1,10 +1,23 @@
 from random import randint
-import zerorpc
+import sys
+# import zerorpc
 
+'''
 c = zerorpc.Client()
 c.connect("tcp://127.0.0.1:4242")
 
 currentHackathon = c.sendTestHackathon()
+c.close()
+'''
+
+print("Output from Python")
+currentHackathon = sys.argv[1]
+print(currentHackathon)
+
+print("First name ")
+
+
+'''
 # TODO: change this current user to logged in user
 currentHacker = currentHackathon['hackers'][20];
 
@@ -125,13 +138,24 @@ def hackathonsimiliarscore(currentHacker, currentHackathon, filters):
 filter = [['interests', 7],['languages', 3]]
 hackathonsimiliarscore(currentHacker, currentHackathon, filter)
 
+
+class HelloRPC(object):
+    def hello(self, name):
+        return "Hello, %s" % name
+
+s = zerorpc.Server(HelloRPC())
+s.bind("tcp://0.0.0.0:4242")
+s.run()
+
+'''
 '''
 TODO: 
---1. Establish connection with Node.js
+--1. Establish connection with Node.js thru childprocess
 -?2. Communicate with Node.js to: a) get data of current user   b) get current hackathon selected  or  load hackathon data from node.js 
 --3. Assign locally specific scores of each area for each user in current hackathon
 --4. return a sorted list of users ordered by  a) interest scores  b) language scores  c) Technologies  d) Interested Fields 
 --5. return a sorted list of general similiarity list based on input params such as: a) score of how much the current user cares about each field combined  
-6. Send the list to visualization 
+6. format all data in JSON
+7. Send the list to visualization 
 '''
 

@@ -11,6 +11,10 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
+var socket = require('socket.io');
+
+
+
 mongoose.connect('mongodb://localhost/loginapp');
 var db = mongoose.connection;
 
@@ -25,6 +29,13 @@ var testaddusers = require('./test/adduserstodb');
 
 // Init App
 var app = express();
+
+
+var http = require("http");
+var http_server = http.createServer(app).listen(3000);
+var http_io = require("socket.io")(http_server);
+
+
 
 // View Engine
 app.set('views', path.join(__dirname, 'views'));
@@ -91,9 +102,44 @@ app.use('/visual', visual);
 app.use('/test', testaddusers);
 //app.use('/connect', testPyConnect);
 
+
 // Set Port
 app.set('port', (process.env.PORT || 3000));
 
+/*
 app.listen(app.get('port'), function(){
 	console.log('Server started on port '+app.get('port'));
 });
+*/
+
+
+//Server
+
+
+http_io.on('connection', function(httpsocket){
+  console.log("connection established on port 3000");
+  httpsocket.on('python-message', function(fromPython){
+    httpsocket.broadcast.emit('message', fromPython);
+  });
+})
+
+
+/*
+var server = app.listen(app.get('port'), function(){
+  console.log('listening for requests on port ' + app.get('port'))
+})
+var io = socket(server);
+io.on('connection', function(socket){
+  console.log("connection established ", server.id);
+
+  socket.on('event', function(data){
+    console.log("data from client event: ",data);
+  });
+
+  socket.on('disconnect', function(){
+    console.log(client.id, " disonnected on "+app.get('port'));
+  });
+});
+//server.listen(app.get('port'));
+
+*/

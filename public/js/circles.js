@@ -11,6 +11,11 @@ const color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05
 var radiusScale = d3.scaleSqrt().domain([1,100]).range([5,radius/20]);
 var distanceScale = d3.scaleLinear().domain([1,100]).range([radius/5,radius-40]);
 
+
+var socket = io.connect('http://localhost:3000');
+
+
+
 function init(){
 
     svg = d3.select("#chart")
