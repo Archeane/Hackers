@@ -7,7 +7,6 @@ var User = require('../models/user');
 var Hackathon = require('../models/hackathon');
 
 
-
 //jsonify
 var convert = require('mongoose_schema-json');
 
@@ -42,12 +41,7 @@ manager.loadTestHackathonData("CEWIT", function(err, hackathon){
 	});
 });
 
-//server to client
-var http = require('http');
-var data = "data to send to client";
-var server = http.createServer(function(request, response){
 
-});
 
 //This is a file to test algorithmn and visualization. 
 //imports from db for constants
@@ -241,3 +235,29 @@ randomUser = function(){
 
 module.exports = router;
 
+var app = require('C:/Projects/HackerMatcher/loginapp-master/app');
+var io = app.io;
+
+console.log(io);
+/*
+io.on('connection', function(socket){
+  console.log("connection established ", server.id);
+
+  socket.on('event', function(data){
+    console.log("data from client event: ",data);
+  });
+
+  socket.on('disconnect', function(){
+    console.log(client.id, " disonnected on "+app.get('port'));
+  });
+});
+/*
+//export to server
+exports = module.exports = function(io){
+	io.sockets.on('connection', function(socekt){
+		socket.on('fileevent', function(){
+			console.log('adduserstodb event triggered');
+		});
+	});
+}
+*/

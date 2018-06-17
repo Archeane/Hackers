@@ -1,3 +1,4 @@
+/*
 var express = require('express');
 var router = express.Router();
 
@@ -27,6 +28,7 @@ router.get('/register3', function(req, res){
 2. Validate inputs
 3. calls User model to create a new user and add to database
 */
+/*
 /TODO:Optional: consider creating a valdiator when inserting into mongodb collection/
 router.post('/register', function (req, res) {
 	var name = req.body.name;
@@ -55,6 +57,7 @@ router.post('/register', function (req, res) {
 		req.checkBody('school', 'Please fill in all required fields').equals(0);
 	}
 */
+/*
 	var errors = req.validationErrors();
 	if (errors) {
 		res.render('register', {

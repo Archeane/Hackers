@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>LoginApp</title>
+	<link rel="stylesheet" href="/css/bootstrap.css" />
+	<link rel="stylesheet" href="/css/style.css" />
+  	<link rel="stylesheet" href="/css/home.css"/>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script type="text/javascript" src="js/home.js"></script>
+</head>
+<body>
+
+  <div class="header clearfix">
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Login dropdown</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+          {{#if user}}
+            <!--SHOW DASHBOARD-->
+          {{else}}
+            <form class="navbar-form navbar-left" role="search" action="/login" method="POST">
+		        <div class="form-group">
+		          <input type="text" class="form-control" placeholder="Username" name="username">
+		        </div>
+		        <div class="form-group">
+		          <input type="text" class="form-control" placeholder="Password" name="password">
+		        </div>
+		        <button type="submit" class="btn btn-default">Submit</button>
+		    </form>
+          {{/if}}
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+  </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          {{#if success_msg}}
+            <div class="alert alert-success">{{success_msg}}</div>
+          {{/if}}
+
+          {{#if error_msg}}
+            <div class="alert alert-danger">{{error_msg}}</div>
+          {{/if}}
+
+          {{#if error}}
+            <div class="alert alert-danger">{{error}}</div>
+          {{/if}}
+        </div>
+	  <div id="register-box">
+		<h2 class="title">Be great at what you do</h2>
+		<h3 class="subtitle">Get started - it's free.</h3>
+
+		<div class="error">
+			<p class="message">
+				<span class="alert-content"></span>
+			</p>
+		</div>
+
+		<div class="left">
+			<form action="/register" method="POST">
+				<div class="form-group">
+					<input type="text" name="reg_firstName" aria-required="true" tabindex="1" placeholder="First Name">
+				</div>
+				<div class="form-group">
+					<input type="text" name="reg_lastName" aria-required="true" tabindex="1" placeholder="Last Name">
+				</div>
+				<div class="form-group">
+					<input type="text" name="reg_username" aria-required="true" tabindex="1" placeholder="Username" />
+				</div>
+				<div class="form-group">
+			    	<input type="text" name="reg_email" aria-required="true" tabindex="1" placeholder="E-mail" />
+			    </div>
+			    <div class="form-group">
+			    	<input type="password" name="reg_password" aria-required="true" tabindex="1" placeholder="Password" />
+			    </div>
+			    <div class="form-group">
+			    	<input type="password" name="reg_password2" aria-required="true" tabindex="1" placeholder="Retype password" />
+			    </div>
+			    <input type="submit" name="reg_submit" value="Join Now" />
+			</form>
+		</div>
+		<div class="right">
+		    <span class="loginwith">Sign in with...</span>
+		    
+		    <button class="social-signin facebook">Log in with facebook</button>
+		    <button class="social-signin twitter">Log in with Twitter</button>
+		    <button class="social-signin google">Log in with Google+</button>
+		  </div>
+		  <div class="or">OR</div>
+		</div>
+	  </div>
+    </div> <!-- /container -->
+
+    <ul>
+        <li>List item 1</li>
+         //li items with class change will be changed on button click
+        <li class='change'>List item 2</li>
+        <button class="trigger" onclick="changeDom()">Trigger Change</button>
+    </ul>
+
+  <footer class="footer">
+    <p>&copy; 2015 LoginApp, Inc.</p>
+  </footer>
+   
+ 
+</body>
+</html>

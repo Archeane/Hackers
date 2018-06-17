@@ -13,7 +13,7 @@ var distanceScale = d3.scaleLinear().domain([1,100]).range([radius/5,radius-40])
 
 
 var socket = io.connect('http://localhost:3000');
-
+socket.emit('fileevent');
 
 
 function init(){

@@ -11,16 +11,16 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
-var socket = require('socket.io');
 
 
 
 mongoose.connect('mongodb://localhost/loginapp');
 var db = mongoose.connection;
 
-var routes = require('./routes/index');
+var home = require('./routes/home');
+var dashboard = require('./routes/index');
 var users = require('./routes/users');
-var register = require('./routes/register');
+//var register = require('./routes/register');
 var visual = require('./routes/visual');
 
 /Test routes/
@@ -30,10 +30,6 @@ var testaddusers = require('./test/adduserstodb');
 // Init App
 var app = express();
 
-
-var http = require("http");
-var http_server = http.createServer(app).listen(3000);
-var http_io = require("socket.io")(http_server);
 
 
 
@@ -93,9 +89,9 @@ app.use(function (req, res, next) {
 
 
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/newacc', register);
+app.use('/dashboard', dashboard);
+app.use('/', home);
+//app.use('/newacc', register);
 app.use('/visual', visual);
 
 /Test uses/
@@ -114,15 +110,21 @@ app.listen(app.get('port'), function(){
 
 
 //Server
-
+var http = require("http");
+var http_server = http.createServer(app).listen(3000, function(){
+  console.log("listening on port 3000");
+});
+var http_io = require("socket.io")(http_server);
 
 http_io.on('connection', function(httpsocket){
   console.log("connection established on port 3000");
   httpsocket.on('python-message', function(fromPython){
     httpsocket.broadcast.emit('message', fromPython);
   });
-})
+});
+  
 
+module.exports.io = http_io;
 
 /*
 var server = app.listen(app.get('port'), function(){
