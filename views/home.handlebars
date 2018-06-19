@@ -97,13 +97,14 @@
 		</div>
 	  </div>
     </div> <!-- /container -->
-
-    <ul>
-        <li>List item 1</li>
-         //li items with class change will be changed on button click
-        <li class='change'>List item 2</li>
-        <button class="trigger" onclick="changeDom()">Trigger Change</button>
-    </ul>
+    <form action="/change" method="POST">
+	    <ul>
+	        <li>List item 1</li>
+	         //li items with class change will be changed on button click
+	        <li class='change'>List item 2</li>
+	        <button class="trigger" onclick="changeDom()">Trigger Change</button>
+	    </ul>
+	</form>
 
   <footer class="footer">
     <p>&copy; 2015 LoginApp, Inc.</p>

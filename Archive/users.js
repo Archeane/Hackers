@@ -1,3 +1,4 @@
+/*
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
@@ -27,13 +28,15 @@ passport.use(new LocalStrategy(
 			}
 
 			User.comparePassword(password, user.password, function (err, isMatch) {
-				if (err) throw err;
-				if (isMatch) {
-					return done(null, user);
-				} else {
-					return done(null, false, { message: 'Invalid password' });
-				}
+			    if (err) throw err;
+			    if (isMatch) {
+			        return done(null, user);
+			    } else {
+			        return done(null, false, { message: 'Invalid password' });
+			    }
 			});
+			
+
 /TODO: set all fields for currentuser here/			
 			currentUser.name = user.name;
 			currentUser.username = user.username;
@@ -67,3 +70,4 @@ router.get('/logout', function (req, res) {
 
 module.exports = router;
 module.exports.globalUser = currentUser;
+*/

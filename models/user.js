@@ -17,6 +17,13 @@ var UserSchema = mongoose.Schema({
 		type: String
 	},
 
+	secretToken:{
+		type:String
+	},
+	active:{
+		type: Boolean
+	},
+
 	school:{
 		type: String
 	},
@@ -80,7 +87,7 @@ module.exports.createUser = function(newUser, callback){
 	});
 }
 
-module.exports.getUserByUsername = function(username, callback){
+module.exports.getUserByUsername = function (username, callback) {
 	var query = {username: username};
 	User.findOne(query, callback);
 }

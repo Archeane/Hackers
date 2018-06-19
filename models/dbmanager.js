@@ -2,6 +2,7 @@ var mongo = require('mongodb');
 var mongoose = require('mongoose');
 var db = mongoose.connection;
 
+
 //The sole pupose of this file is to load data from mongodb and export it to other files
 //Needed data:
 //UI register: unis, interests, skills, fields, technologies

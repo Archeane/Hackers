@@ -11,6 +11,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
+//require('./config/passport');
 
 
 
@@ -19,12 +20,12 @@ var db = mongoose.connection;
 
 var home = require('./routes/home');
 var dashboard = require('./routes/index');
-var users = require('./routes/users');
+//var users = require('./routes/users');
 //var register = require('./routes/register');
 var visual = require('./routes/visual');
 
 /Test routes/
-var testaddusers = require('./test/adduserstodb');
+//var testaddusers = require('./test/adduserstodb');
 //var testPyConnect = require('./test/connectPython')
 
 // Init App
@@ -95,7 +96,7 @@ app.use('/', home);
 app.use('/visual', visual);
 
 /Test uses/
-app.use('/test', testaddusers);
+//app.use('/test', testaddusers);
 //app.use('/connect', testPyConnect);
 
 

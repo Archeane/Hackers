@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var ctnUser = require('./users');
+
+var ctnUser = require('./home');
 
 var User = require('../models/user');
 
@@ -10,12 +11,13 @@ router.get('/', ensureAuthenticated, function(req, res){
 	res.render('index', ctnUser.globalUser);
 });
 
+
 function ensureAuthenticated(req, res, next){
 	if(req.isAuthenticated()){
 		return next();
 	} else {
 		//req.flash('error_msg','You are not logged in');
-		res.redirect('/users/login');
+		res.redirect('/dashboard');
 	}
 }
 

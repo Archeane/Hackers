@@ -1,3 +1,4 @@
+/*
 var express = require('express');
 var router = express.Router();
 var manager = require('../models/dbmanager');
@@ -101,6 +102,8 @@ router.get('/', function(req, res){
 	});
 
 */	
+
+/*
 });
 
 

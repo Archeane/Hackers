@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var randomstring = require('randomstring');
 
 var User = require('../models/user');
 
@@ -18,27 +19,34 @@ router.get('/', function (req, res) {
 	res.render('home', {layout: false});
 });
 
+
 passport.use(new LocalStrategy(
-	function (loginusername, loginpassword, done) {
-		User.getUserByUsername(loginusername, function (err, user) {
-			console.log(user);
+	function (username, password, done) {
+	    User.getUserByUsername(username, function (err, user) {
+			//check if username exist in database
 			if (err) throw err;
 			if (!user) {
 				return done(null, false, { message: 'Unknown Username' });
 			}
 
-			User.comparePassword(loginpassword, user.password, function (err, isMatch) {
-				if (err) throw err;
-				if (isMatch) {
-					return done(null, user);
-				} else {
-					return done(null, false, { message: 'Invalid password' });
-				}
+			User.comparePassword(password, user.password, function (err, isMatch) {
+			    if (err) throw err;
+			    if (isMatch) {
+			        if (!user.active) {
+			            return done(null, false, { message: 'Please activate your account' });
+			        }
+			        return done(null, user);
+			    } else {
+			        return done(null, false, { message: 'Invalid password' });
+			    }
 			});
+			
+
+
 /TODO: set all fields for currentuser here/			
 			currentUser.name = user.name;
 			currentUser.username = user.username;
-			console.log(user);
+			//console.log(currentUser);
 
 		});
 	}
@@ -55,15 +63,21 @@ passport.deserializeUser(function (id, done) {
 	});
 });
 
+
+
 router.post('/login', 
-	passport.authenticate('local', { successRedirect: '/dashboard', failureRedirect: '/', failureFlash: true }), 
-	function (req, res) {
+	passport.authenticate('local',
+        {
+            successRedirect: '/dashboard',
+            failureRedirect: '/',
+            failureFlash: true
+        }), function (req, res) {
 		res.redirect('/dashboard');  //the top statement is the one that redirects
 	});
 
 var createdUser = new User({
 	name:'', email:'', username: '', password: '', school: '', major: '', 
-	github:'', devpost:'', website:'', numOfHack:'', interests: null, skills: null
+	github:'', devpost:'', website:'', numOfHack:'', interests: null, skills: null, active: false, secretToken: ''
 });
 
 router.post('/register', function(req,res){
@@ -85,9 +99,10 @@ router.post('/register', function(req,res){
 
 
 	var errors = req.validationErrors();
+	/TOOD: ajax to front end to let the user know about an error/
 	if (errors) {
 		console.log(errors);
-		res.send({success: true, message: '<li>New list item number 1</li><li>New list item number 2</li>'});
+		
 		res.render('home', {
 			
 			errors: errors
@@ -108,16 +123,30 @@ router.post('/register', function(req,res){
 					});
 				}
 				else {  //email and username both valid
+
 					createdUser.name = name;
 					createdUser.email = email;
 					createdUser.username = username;
 					createdUser.password = password;
+
+					const secretToken = randomstring.generate();
+					createdUser.secretToken = secretToken;
+					createdUser.active = false;
+
 					console.log(createdUser);
-					res.redirect('/newacc/register2');
+					User.createUser(createdUser, function (err, user) {
+					    if (err) throw err;
+					});
+					//console.log(createdUser);
+					//res.redirect('/newacc/register2');
 				}
 			});
 		});
 	}
+});
+
+router.post('/change', function(req,res){
+	res.send({success: true, message: '<li>New list item number 1</li><li>New list item number 2</li>'});
 });
 
 /TODO: move logout to dashboard/
